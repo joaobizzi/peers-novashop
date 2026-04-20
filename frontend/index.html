@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaShop — Digital Consulting Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="logo-block">
+    <span class="logo-tag">Peers Group · Data Analytics</span>
+    <h1>Nova<span>Shop</span></h1>
+  </div>
+  <div class="header-meta">
+    Pipeline de Dados e Análises Estratégicas<br>
+    Período: 2023 — 2024 · Dados reais processados<br>
+    15.000 pedidos · 3.000 clientes · 200 produtos<br>
+    Feito por João Pedro Bizzi Oliveira - Processo Seletivo PEERS Consulting
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="showSection('s0',this)">Visão Geral</button>
+  <button class="nav-btn" onclick="showSection('s1',this)">Q1 · Status de Pedidos</button>
+  <button class="nav-btn" onclick="showSection('s2',this)">Q2 · Top 10 Produtos</button>
+  <button class="nav-btn" onclick="showSection('s3',this)">Q3 · Ticket Médio</button>
+  <button class="nav-btn" onclick="showSection('s4',this)">Q4 · Evolução Temporal</button>
+  <button class="nav-btn" onclick="showSection('s5',this)">Q5 · Canais de Aquisição</button>
+  <button class="nav-btn" onclick="showSection('s6',this)">Q6 · Pipeline de Dados</button>
+</nav>
+
+<main>
+
+<!-- VISÃO GERAL -->
+<div id="s0" class="section active">
+  <div class="section-header"><span class="q-badge">OVERVIEW</span><span class="section-title">Dashboard Executivo</span></div>
+  <p class="section-desc">Consolidado das principais métricas operacionais e financeiras da NovaShop. Dados extraídos diretamente das bases processadas — 15.000 pedidos, 3.000 clientes, 200 produtos.</p>
+  <div class="grid-4" style="margin-bottom:1.5rem">
+    <div class="card"><div class="card-accent-line" style="background:var(--accent)"></div><div class="card-label">Total de Pedidos</div><div class="card-value" style="color:var(--accent)">15.000</div><div class="card-sub">2023 + 2024 consolidado</div></div>
+    <div class="card"><div class="card-accent-line" style="background:var(--accent2)"></div><div class="card-label">Taxa de Entrega</div><div class="card-value" style="color:var(--accent2)">66,4%</div><div class="card-sub">9.959 pedidos entregues</div></div>
+    <div class="card"><div class="card-accent-line" style="background:var(--accent3)"></div><div class="card-label">Taxa de Cancelamento</div><div class="card-value" style="color:var(--accent3)">16,9%</div><div class="card-sub">2.537 pedidos cancelados</div></div>
+    <div class="card"><div class="card-accent-line" style="background:#b07af4"></div><div class="card-label">Ticket Médio Geral</div><div class="card-value" style="color:#b07af4">R$ 11,8k</div><div class="card-sub">Pedidos faturados B2B+B2C</div></div>
+  </div>
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="chart-card"><div class="chart-card-title">Distribuição de Status dos Pedidos</div><div class="chart-card-sub">Percentual por categoria — 15.000 pedidos reais</div><div class="chart-wrap"><canvas id="chartOverviewStatus"></canvas></div></div>
+    <div class="chart-card"><div class="chart-card-title">Volume de Pedidos por Canal de Aquisição</div><div class="chart-card-sub">Distribuição dos 15.000 pedidos por origem</div><div class="chart-wrap"><canvas id="chartOverviewCanal"></canvas></div></div>
+  </div>
+  <div class="grid-3">
+    <div class="insight-box"><div class="insight-title yellow">★ Pico Histórico Real</div><div class="insight-text">Novembro/2023 registrou <strong>2.317 pedidos</strong> — 4,4× acima da média mensal (~530). Black Friday sobrecarregou a operação: 570 cancelamentos e 375 tickets de suporte só nesse mês.</div></div>
+    <div class="insight-box red"><div class="insight-title red">⚠ Canal Crítico Confirmado</div><div class="insight-text"><strong>Paid Search</strong> tem 30,7% de cancelamento — 2,6× maior que os demais canais. Com 3.965 pedidos, é o maior canal em volume mas o pior em qualidade de conversão.</div></div>
+    <div class="insight-box teal"><div class="insight-title teal">✓ Paridade B2B / B2C</div><div class="insight-text">Ticket médio B2B (R$ 11.880) ≈ B2C (R$ 11.815). P-value = 0,757 confirma que <strong>a diferença é ruído</strong>, não padrão.</div></div>
+  </div>
+</div>
+
+<!-- Q1 STATUS -->
+<div id="s1" class="section">
+  <div class="section-header"><span class="q-badge">QUESTÃO 1</span><span class="section-title">Volume de Pedidos por Status</span></div>
+  <p class="section-desc">Distribuição percentual de todos os pedidos por status operacional. Base: 15.000 registros após limpeza e sincronização financeira bottom-up.</p>
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="chart-card span-2"><div class="chart-card-title">Volume Absoluto por Status</div><div class="chart-card-sub">Quantidade real de pedidos em cada categoria</div><div class="chart-wrap"><canvas id="chartStatus"></canvas></div></div>
+  </div>
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="table-card">
+      <div class="table-head"><span class="table-head-title">Tabela de Distribuição</span><span class="table-count">4 status · 15.000 pedidos</span></div>
+      <table>
+        <thead><tr><th>Status</th><th>Volume</th><th>Distribuição</th><th>Categoria</th></tr></thead>
+        <tbody>
+          <tr><td>Entregue</td><td>9.959</td><td>66,4%</td><td><span class="badge badge-green">Receita</span></td></tr>
+          <tr><td>Em Trânsito</td><td>1.371</td><td>9,1%</td><td><span class="badge badge-green">Receita</span></td></tr>
+          <tr><td>Cancelado</td><td>2.537</td><td>16,9%</td><td><span class="badge badge-red">Perda</span></td></tr>
+          <tr><td>Devolvido</td><td>1.133</td><td>7,6%</td><td><span class="badge badge-purple">Custo</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="chart-card"><div class="chart-card-title">Distribuição Percentual</div><div class="chart-card-sub">Proporção visual por status</div><div class="chart-wrap"><canvas id="chartStatusPie"></canvas></div></div>
+  </div>
+  <div class="insight-box red"><div class="insight-title red">⚠ Alerta de Negócio</div><div class="insight-text">Cancelamentos (16,9%) + Devoluções (7,6%) = <strong>24,5% dos pedidos sem receita líquida</strong> — equivalente a 3.670 pedidos improdutivos. A cada 4 pedidos realizados, 1 não converte. O volume do canal Paid Search sozinho responde por parcela expressiva desse número.</div></div>
+</div>
+
+<!-- Q2 PRODUTOS -->
+<div id="s2" class="section">
+  <div class="section-header"><span class="q-badge">QUESTÃO 2</span><span class="section-title">Top 10 Produtos por Volume e Receita</span></div>
+  <p class="section-desc">Ranking baseado em quantidade total vendida. Excluídos pedidos cancelados e devolvidos. Receita líquida = qtd × (preço_praticado − custo_unitário).</p>
+  <div class="chart-card" style="margin-bottom:1.5rem"><div class="chart-card-title">Volume Vendido vs Receita Líquida — Top 10</div><div class="chart-card-sub">Barras = quantidade vendida · Linha = receita líquida total (R$)</div><div class="chart-wrap-tall"><canvas id="chartProdutosDual"></canvas></div></div>
+  <div class="table-card" style="margin-bottom:1.5rem">
+    <div class="table-head"><span class="table-head-title">Ranking Detalhado</span><span class="table-count">Apenas pedidos válidos · Excl. cancelado e devolvido</span></div>
+    <table>
+      <thead><tr><th>#</th><th>Produto</th><th>Qtd Vendida</th><th>Rec. Bruta</th><th>Rec. Líquida</th><th>Margem</th></tr></thead>
+      <tbody id="tabelaProdutos"></tbody>
+    </table>
+  </div>
+  <div class="grid-2">
+    <div class="insight-box"><div class="insight-title yellow">★ Líder Real de Volume + Margem</div><div class="insight-text"><strong>Tênis Esportivo 78</strong> lidera com 543 unidades e R$ 769k de receita líquida — melhor combinação volume × margem. Margem líquida de 46,9% destaca-se como a mais eficiente entre os top 10.</div></div>
+    <div class="insight-box teal"><div class="insight-title teal">→ Notebooks 172: Margem Oculta</div><div class="insight-text"><strong>Notebooks 172</strong> aparece em 9º lugar por volume (488 un.) mas entrega R$ 700k líquido — segunda maior receita líquida do ranking. Alto valor unitário compensa volume menor.</div></div>
+  </div>
+</div>
+
+<!-- Q3 TICKET MÉDIO -->
+<div id="s3" class="section">
+  <div class="section-header"><span class="q-badge">QUESTÃO 3</span><span class="section-title">Ticket Médio por Segmento: B2B vs B2C</span></div>
+  <p class="section-desc">Comparativo estatístico do valor médio de compra entre segmentos. Welch's T-Test (equal_var=False) aplicado sobre 11.330 pedidos faturados.</p>
+  <div class="grid-4" style="margin-bottom:1.5rem">
+    <div class="card"><div class="card-accent-line" style="background:var(--accent2)"></div><div class="card-label">Ticket Médio B2B</div><div class="card-value" style="color:var(--accent2)">R$ 11.880</div><div class="card-sub">2.258 pedidos faturados</div></div>
+    <div class="card"><div class="card-accent-line" style="background:var(--accent3)"></div><div class="card-label">Ticket Médio B2C</div><div class="card-value" style="color:var(--accent3)">R$ 11.815</div><div class="card-sub">9.072 pedidos faturados</div></div>
+    <div class="card"><div class="card-accent-line" style="background:var(--accent)"></div><div class="card-label">Diferença Absoluta</div><div class="card-value" style="color:var(--accent)">R$ 65</div><div class="card-sub">Apenas 0,55% de diferença</div></div>
+    <div class="card"><div class="card-accent-line" style="background:#b07af4"></div><div class="card-label">P-Value (Welch T-Test)</div><div class="card-value" style="color:#b07af4">0,757</div><div class="card-sub">NÃO significante (α=0,05)</div></div>
+  </div>
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="chart-card"><div class="chart-card-title">Comparativo de Ticket Médio (R$)</div><div class="chart-card-sub">Eixo Y iniciando em R$ 11.400 para evidenciar diferença</div><div class="chart-wrap"><canvas id="chartTicket"></canvas></div></div>
+    <div class="chart-card"><div class="chart-card-title">Distribuição de Volume por Segmento</div><div class="chart-card-sub">80,1% dos pedidos faturados são B2C</div><div class="chart-wrap"><canvas id="chartSegmentoPie"></canvas></div></div>
+  </div>
+  <div class="grid-2">
+    <div class="insight-box red"><div class="insight-title red">✗ Diferença NÃO é Real</div><div class="insight-text">P-value = 0,757 — muito acima de α=0,05. A diferença de R$ 65 é estatisticamente ruído. Os dois segmentos possuem <strong>comportamento de compra idêntico</strong> em valor de ticket.</div></div>
+    <div class="insight-box purple"><div class="insight-title purple">→ Hipótese para Investigar</div><div class="insight-text">B2B da NovaShop pode ser composto por <strong>microempresas com comportamento B2C</strong>.</div></div>
+  </div>
+</div>
+
+<!-- Q4 TEMPORAL -->
+<div id="s4" class="section">
+  <div class="section-header"><span class="q-badge">QUESTÃO 4</span><span class="section-title">Evolução Temporal e Sazonalidade</span></div>
+  <p class="section-desc">Análise mês a mês de 2023–2024. Pico de novembro/2023 com 2.317 pedidos — valor real que representa 4,4× a média dos demais meses do ano.</p>
+  <div class="chart-card" style="margin-bottom:1.5rem"><div class="chart-card-title">Volume de Pedidos — Evolução Mensal (2023–2024)</div><div class="chart-card-sub">Total · Ativos (Entregue + Em Trânsito) · Cancelados + Devolvidos</div><div class="chart-wrap-tall"><canvas id="chartTemporal"></canvas></div></div>
+  <div class="chart-card" style="margin-bottom:1.5rem"><div class="chart-card-title">Tickets de Suporte Abertos por Mês</div><div class="chart-card-sub">Pico Nov/23: 375 tickets · Dez/23: 391 tickets — correlação direta com volume de pedidos</div><div class="chart-wrap-sm"><canvas id="chartTicketsSuporte"></canvas></div></div>
+  <div class="grid-3">
+    <div class="insight-box"><div class="insight-title yellow">📈 Nov/2023 — Black Friday</div><div class="insight-text">2.317 pedidos em um único mês (média dos demais: ~530). 570 cancelamentos e 375 tickets de suporte. A operação claramente não estava dimensionada para o volume — evidência de perda de confiança dos clientes.</div></div>
+    <div class="insight-box teal"><div class="insight-title teal">📊 2024: Distribuição Uniforme</div><div class="insight-text">2024 apresenta variação entre 498–608 pedidos/mês — sem anomalias. O pico de Dez/24 (220 tickets) sugere sazonalidade de Natal controlada, diferente do colapso operacional de Nov/23.</div></div>
+    <div class="insight-box red"><div class="insight-title red">📉 Concentração de Risco</div><div class="insight-text">Nov/23 representa 15,4% de todo o volume de 2023 isoladamente. Dependência de um único evento promocional é risco operacional crítico — planejamento de capacidade precisa contemplar 4× a demanda média.</div></div>
+  </div>
+</div>
+
+<!-- Q5 CANAIS -->
+<div id="s5" class="section">
+  <div class="section-header"><span class="q-badge">QUESTÃO 5</span><span class="section-title">Performance por Canal de Aquisição</span></div>
+  <p class="section-desc">Cruzamento clientes → pedidos. 4 canais identificados nos dados reais: Paid Search, Indicação, Orgânico e Redes Sociais.</p>
+  <div class="grid-4" style="margin-bottom:1.5rem">
+    <div class="card"><div class="card-accent-line" style="background:var(--accent3)"></div><div class="card-label">Maior Cancelamento</div><div class="card-value" style="color:var(--accent3);font-size:1.5rem">Paid Search</div><div class="card-sub">30,7% de cancelamento</div></div>
+    <div class="card"><div class="card-accent-line" style="background:var(--accent)"></div><div class="card-label">Menor Cancelamento</div><div class="card-value" style="color:var(--accent);font-size:1.5rem">Redes Sociais</div><div class="card-sub">11,7% de cancelamento</div></div>
+    <div class="card"><div class="card-accent-line" style="background:var(--accent2)"></div><div class="card-label">Maior Ticket Médio</div><div class="card-value" style="color:var(--accent2);font-size:1.5rem">Orgânico</div><div class="card-sub">R$ 11.893 por pedido</div></div>
+    <div class="card"><div class="card-accent-line" style="background:#b07af4"></div><div class="card-label">Menor Ticket Médio</div><div class="card-value" style="color:#b07af4;font-size:1.5rem">Indicação</div><div class="card-sub">R$ 11.625 por pedido</div></div>
+  </div>
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="chart-card"><div class="chart-card-title">Taxa de Cancelamento por Canal (%)</div><div class="chart-card-sub">Paid Search destoa fortemente — 2,6× maior que os demais</div><div class="chart-wrap"><canvas id="chartCancelCanal"></canvas></div></div>
+    <div class="chart-card"><div class="chart-card-title">Ticket Médio por Canal (R$)</div><div class="chart-card-sub">Tickets próximos entre si — diferença de R$ 268 entre extremos</div><div class="chart-wrap"><canvas id="chartTicketCanal"></canvas></div></div>
+  </div>
+  <div style="margin-bottom:1.5rem">
+    <div class="table-card">
+      <div class="table-head"><span class="table-head-title">Resumo Completo por Canal</span><span class="table-count">Dados reais — 15.000 pedidos</span></div>
+      <table>
+        <thead><tr><th>Canal</th><th>Total Pedidos</th><th>Cancelados</th><th>Taxa Cancelamento</th><th>Ticket Médio</th><th>Avaliação</th></tr></thead>
+        <tbody>
+          <tr><td>Paid Search</td><td>3.965</td><td>1.219</td><td>30,7%</td><td>R$ 11.862</td><td><span class="badge badge-red">Crítico</span></td></tr>
+          <tr><td>Indicação</td><td>3.658</td><td>453</td><td>12,4%</td><td>R$ 11.625</td><td><span class="badge badge-green">Bom</span></td></tr>
+          <tr><td>Orgânico / SEO</td><td>3.616</td><td>426</td><td>11,8%</td><td>R$ 11.893</td><td><span class="badge badge-green">Bom</span></td></tr>
+          <tr><td>Redes Sociais</td><td>3.761</td><td>439</td><td>11,7%</td><td>R$ 11.743</td><td><span class="badge badge-yellow">Regular</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="insight-box red"><div class="insight-title red">⚠ Paid Search: Volume ≠ Qualidade</div><div class="insight-text">30,7% de cancelamento com 3.965 pedidos significa que <strong>1.219 conversões pagas foram desperdiçadas</strong>. Considerando o custo de aquisição de paid search, o ROI real deste canal pode ser negativo. Auditoria de campanha urgente.</div></div>
+    <div class="insight-box teal"><div class="insight-title teal">★ Orgânico: Melhor Custo-Benefício</div><div class="insight-text">Menor cancelamento entre os 3 canais de baixo churn (11,8%) + maior ticket médio (R$ 11.893). Investimento em SEO e conteúdo tem retorno comprovado pelos dados — cliente orgânico é o mais qualificado.</div></div>
+  </div>
+</div>
+
+<!-- Q6 PIPELINE -->
+<div id="s6" class="section">
+  <div class="section-header"><span class="q-badge">QUESTÃO 6</span><span class="section-title">Pipeline de Tratamento dos Dados</span></div>
+  <p class="section-desc">Documentação do processo de limpeza, validação e enriquecimento das 6 bases. Orquestrado pelo módulo limpar_dados.py com funções específicas por entidade.</p>
+  <div class="pipeline">
+    <div class="pipe-step"><div class="pipe-icon">📂</div><div class="pipe-name">LER</div><div class="pipe-desc">Leitura CSVs de data/bruto/</div></div>
+    <div class="pipe-step"><div class="pipe-icon">🧹</div><div class="pipe-name">LIMPAR</div><div class="pipe-desc">Limpeza por entidade</div></div>
+    <div class="pipe-step"><div class="pipe-icon">🔗</div><div class="pipe-name">TRATAR</div><div class="pipe-desc">Sinc. financeira bottom-up</div></div>
+    <div class="pipe-step"><div class="pipe-icon">💾</div><div class="pipe-name">SALVAR</div><div class="pipe-desc">Salva em data/processado/</div></div>
+    <div class="pipe-step"><div class="pipe-icon">📊</div><div class="pipe-name">ANALISAR</div><div class="pipe-desc">5 módulos de análise</div></div>
+  </div>
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="table-card">
+      <div class="table-head"><span class="table-head-title">Regras de Limpeza por Base</span><span class="table-count">6 entidades · 66.940 linhas totais</span></div>
+      <table>
+        <thead><tr><th>Base</th><th>Linhas</th><th>Tratamentos Aplicados</th></tr></thead>
+        <tbody>
+          <tr><td>clientes</td><td>3.000</td><td>Conversão datas · Segmento normalizado (UPPER)</td></tr>
+          <tr><td>produtos</td><td>200</td><td>Filtro preço/custo ≥ 0 · Drop nulos em nome</td></tr>
+          <tr><td>avaliacoes</td><td>8.000</td><td>Fill comentário · Drop NaN em IDs chave</td></tr>
+          <tr><td>pedidos</td><td>15.000</td><td>Conversão datas · Recálculo valor_total bottom-up</td></tr>
+          <tr><td>itens_pedido</td><td>36.740</td><td>Fill desconto=0 · Drop NaN em preço/quantidade</td></tr>
+          <tr><td>tickets_suporte</td><td>4.000</td><td>Conversão datas · Cálculo tempo_resolucao_dias</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="chart-card">
+      <div class="chart-card-title">Lógica de Integridade Financeira</div>
+      <div class="chart-card-sub">Sincronização bottom-up de valor_total dos pedidos</div>
+      <div class="code-block">
+<span class="code-comment"># valor_total recalculado a partir dos itens</span>
+<span class="code-comment"># itens_pedido é a fonte de verdade</span>
+
+df_itens[<span class="code-str">'total_item'</span>] = (
+  df_itens[<span class="code-str">'quantidade'</span>]
+  * df_itens[<span class="code-str">'preco_praticado'</span>]
+)
+soma = df_itens.<span class="code-fn">groupby</span>(<span class="code-str">'pedido_id'</span>)[
+  <span class="code-str">'total_item'</span>
+].<span class="code-fn">sum</span>().<span class="code-fn">round</span>(2)
+
+<span class="code-comment"># Remove pedidos financeiros com valor</span>
+<span class="code-comment"># inválido (NaN ou zero)</span>
+filtro = status_financeiro &amp; (
+  valor_total.isna() | (valor_total &lt;= 0)
+)
+df_final = df[~filtro]
+      </div>
+    </div>
+  </div>
+  <div class="grid-3">
+    <div class="insight-box"><div class="insight-title yellow">⚙ Padrão de Escalabilidade</div><div class="insight-text">Funções de limpeza mapeadas em dict por entidade — extensível sem alterar a lógica central. Adicionar nova base = adicionar uma entrada no dicionário.</div></div>
+    <div class="insight-box teal"><div class="insight-title teal">✓ Determinístico</div><div class="insight-text">Mesmo CSV de entrada → saída idêntica. Pipeline auditável, versionável e integrável a workflows de CI/CD de dados sem adaptações.</div></div>
+  </div>
+</div>
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+</html>
