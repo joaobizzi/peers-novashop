@@ -234,5 +234,5 @@ Acesse a interface interativa diretamente pelo navegador, sem necessidade de ins
 
 
 <div align="center">
-  <sub>Desenvolvido por <strong>João Pedro Bizzi OliveiraBizzi</strong> · Peers Group · Digital Consulting</sub>
+  <sub>Desenvolvido por <strong>João Pedro Bizzi Oliveira</strong> · Peers Group · Digital Consulting</sub>
 </div>
