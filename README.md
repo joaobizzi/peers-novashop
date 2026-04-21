@@ -19,7 +19,6 @@
 - [Pipeline de Dados](#-pipeline-de-dados)
 - [Documentação de Tratamento de Dados](#-documentação-de-tratamento-de-dados-item-6)
 - [Análises Realizadas](#-análises-realizadas)
-- [Principais Descobertas](#-principais-descobertas)
 - [Como Executar](#-como-executar)
 
 ---
