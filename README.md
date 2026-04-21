@@ -209,12 +209,7 @@ python --version  # 3.12.3 ou superior
 git clone https://github.com/joaobizzi/peers-novashop
 cd peers-novashop
 
-# 2. (Opcional) Crie um ambiente virtual
-python -m venv .venv
-source .venv/bin/activate      # Linux/macOS
-.venv\Scripts\activate         # Windows
-
-# 3. Instale as dependências
+# 2. Instale as dependências
 pip install -r requirements.txt
 ```
 
