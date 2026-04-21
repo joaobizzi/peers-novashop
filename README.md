@@ -141,7 +141,7 @@ O módulo `limpar_dados.py` orquestra um pipeline determinístico em 4 etapas:
 
 ### Regras de Limpeza por Entidade
 
-| Dataset | Inconsistência Identificada | Tratamento Aplicado | Justificativa de Negócio |
+| Dataset | Possivel Inconsistência | Tratamento Aplicado | Justificativa de Negócio |
 |:---|:---|:---|:---|
 | **Geral** | Datas em formato texto ou inconsistentes | Conversão para `datetime` com `errors='coerce'` | Necessário para análise temporal mensal (2023/2024) e identificação de picos sazonais |
 | **Clientes** | Coluna `segmento` com variações de capitalização (ex: `b2b`, `B2B`, `b2B`) | Normalização via `.str.strip().str.upper()` | Garante integridade no cruzamento com pedidos para análise B2B vs B2C |
